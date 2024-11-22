@@ -5,10 +5,6 @@ name: "Integrate"
 on: # yamllint disable-line rule:truthy
   pull_request: null
   push:
-    branches:
-      - "main"
-      - "master"
-      - "v*"
 
 env:
   PHP_EXTENSIONS: "json, simplexml"

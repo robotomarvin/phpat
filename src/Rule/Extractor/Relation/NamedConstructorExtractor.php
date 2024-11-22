@@ -6,6 +6,7 @@ use PHPat\Parser\TypeNodeParser;
 use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 
+// @phpstan-ignore-next-line trait.unused
 trait NamedConstructorExtractor
 {
     public function getNodeType(): string

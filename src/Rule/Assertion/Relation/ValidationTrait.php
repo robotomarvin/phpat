@@ -5,6 +5,7 @@ namespace PHPat\Rule\Assertion\Relation;
 use PHPat\Selector\SelectorInterface;
 use PHPat\ShouldNotHappenException;
 use PHPStan\Reflection\ClassReflection;
+use PHPStan\Rules\IdentifierRuleError;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 
@@ -15,7 +16,7 @@ trait ValidationTrait
      * @param  array<SelectorInterface> $targetExcludes
      * @param  array<class-string>      $nodes
      * @param  array<string>            $tips
-     * @return array<RuleError>
+     * @return array<IdentifierRuleError>
      * @throws ShouldNotHappenException
      */
     protected function applyShould(string $ruleName, ClassReflection $subject, array $targets, array $targetExcludes, array $nodes, array $tips): array
@@ -32,6 +33,7 @@ trait ValidationTrait
             }
             if (!$targetFound) {
                 $ruleError = RuleErrorBuilder::message($this->getMessage($ruleName, $subject->getName(), $target->getName()));
+                $ruleError->identifier('phpat.generic'); // TODO
                 foreach ($tips as $tip) {
                     $ruleError->addTip($tip);
                 }
@@ -47,7 +49,7 @@ trait ValidationTrait
      * @param  array<SelectorInterface> $targetExcludes
      * @param  array<class-string>      $nodes
      * @param  array<string>            $tips
-     * @return array<RuleError>
+     * @return array<IdentifierRuleError>
      * @throws ShouldNotHappenException
      */
     protected function applyShouldNot(string $ruleName, ClassReflection $subject, array $targets, array $targetExcludes, array $nodes, array $tips): array
@@ -57,6 +59,7 @@ trait ValidationTrait
             foreach ($nodes as $node) {
                 if ($this->nodeMatchesTarget($node, $target, $targetExcludes)) {
                     $ruleError = RuleErrorBuilder::message($this->getMessage($ruleName, $subject->getName(), $node));
+                    $ruleError->identifier('phpat.generic'); // TODO
                     foreach ($tips as $tip) {
                         $ruleError->addTip($tip);
                     }
@@ -73,7 +76,7 @@ trait ValidationTrait
      * @param  array<SelectorInterface> $targetExcludes
      * @param  array<class-string>      $nodes
      * @param  array<string>            $tips
-     * @return array<RuleError>
+     * @return array<IdentifierRuleError>
      * @throws ShouldNotHappenException
      */
     protected function applyCanOnly(string $ruleName, ClassReflection $subject, array $targets, array $targetExcludes, array $nodes, array $tips): array
@@ -86,6 +89,7 @@ trait ValidationTrait
                 }
             }
             $ruleError = RuleErrorBuilder::message($this->getMessage($ruleName, $subject->getName(), $node));
+            $ruleError->identifier('phpat.generic'); // TODO
             foreach ($tips as $tip) {
                 $ruleError->addTip($tip);
             }

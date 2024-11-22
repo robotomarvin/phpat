@@ -6,6 +6,7 @@ use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\InClassNode;
 use PHPStan\ShouldNotHappenException;
+use PHPStan\Type\TypeCombinator;
 
 trait PropertyTagExtractor
 {
@@ -47,7 +48,8 @@ trait PropertyTagExtractor
 
         $names = [];
         foreach ($resolvedPhpDoc->getPropertyTags() as $tag) {
-            array_push($names, ...$tag->getType()->getReferencedClasses());
+            $type = TypeCombinator::union(...array_filter([$tag->getReadableType(), $tag->getWritableType()]));
+            array_push($names, ...$type->getReferencedClasses());
         }
 
         return $names;
